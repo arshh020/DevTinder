@@ -2,12 +2,20 @@ const express = require("express");
 
 const app = express();
 
-app.get("/", (req, res) => {
-  res.send("Hello from the dashboard");
+app.get("/user", (req, res) => {
+  res.send({ firstname: "Arsh", lastname: "Gogia" });
 });
 
-app.get("/test", (req, res) => {
-  res.send("Hello from the server");
+app.get("/ab*cd", (req, res) => {
+  res.send({ firstname: "Arsh", lastname: "Gogia" });
+});
+
+app.get(/a/, (req, res) => {
+  res.send({ firstname: "Arsh", lastname: "Gogia" });
+});
+
+app.get(/.*fly$/, (req, res) => {
+  res.send({ firstname: "Arsh", lastname: "Gogia" });
 });
 
 app.listen(3000, () => {
