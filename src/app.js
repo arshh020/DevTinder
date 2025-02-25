@@ -2,20 +2,20 @@ const express = require("express");
 
 const app = express();
 
-app.get("/user", (req, res) => {
-  res.send({ firstname: "Arsh", lastname: "Gogia" });
+const { adminAuth, userAuth } = require("./middlwares/auth");
+
+app.use("/admin", adminAuth);
+
+app.get("/user/login", (req, res) => {
+  res.send("User logged in successfully");
 });
 
-app.get("/ab*cd", (req, res) => {
-  res.send({ firstname: "Arsh", lastname: "Gogia" });
+app.get("/user/data", userAuth, (req, res) => {
+  res.send("User Data sent");
 });
 
-app.get(/a/, (req, res) => {
-  res.send({ firstname: "Arsh", lastname: "Gogia" });
-});
-
-app.get(/.*fly$/, (req, res) => {
-  res.send({ firstname: "Arsh", lastname: "Gogia" });
+app.get("/admin/allUserData", (req, res) => {
+  res.send("All data sent");
 });
 
 app.listen(3000, () => {
