@@ -29,11 +29,11 @@ profileRouter.patch("/profile/edit", userAuth, async (req, res) => {
 
     const loggedInuser = req.user;
 
-    await User.findByIdAndUpdate(loggedInuser._id, update, {
+    const user = await User.findByIdAndUpdate(loggedInuser._id, update, {
       returnDocument: "after",
       runValidators: true,
     });
-    res.send("Your profile is updated");
+    res.send(user);
   } catch (err) {
     res.status(400).send("ERROR: " + err.message);
   }
