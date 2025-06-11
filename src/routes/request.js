@@ -53,7 +53,7 @@ requestRouter.post(
           req.user.firstName +
           " to " +
           toUser.firstName,
-        data,
+        data: data,
       });
     } catch (err) {
       res.status(400).send("ERROR: " + err.message);
@@ -88,7 +88,10 @@ requestRouter.post(
 
       const user = await User.findById({ _id: connectionRequest.fromUserId });
 
-      res.send("You " + status + " request by " + user.firstName);
+      res.json({
+        message: "You " + status + " request by " + user.firstName,
+        data: user,
+      });
     } catch (err) {
       res.status(400).send("ERROR: " + err.message);
     }

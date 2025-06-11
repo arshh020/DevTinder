@@ -9,15 +9,12 @@ const validator = require("validator");
 
 authRouter.post("/signup", async (req, res) => {
   try {
-    // Validate the data
     validateSignUpData(req);
 
     const { firstName, lastName, emailId, password } = req.body;
 
-    // Encrypt the password
     const passwordHash = await bcrypt.hash(password, 10);
 
-    // Creating a instance of the User model
     const user = new User({
       firstName,
       lastName,
@@ -25,8 +22,15 @@ authRouter.post("/signup", async (req, res) => {
       password: passwordHash,
     });
 
-    await user.save(); //returns a promise
-    res.send("User added succesfully");
+    await user.save();
+
+    const token = user.getJWT();
+
+    res.cookie("token", token, {
+      expires: new Date(Date.now() + 24 * 3600000),
+    });
+
+    res.json({ message: "User added succesfully", data: user });
   } catch (err) {
     res.status(400).send("ERROR: " + err.message);
   }
